@@ -11,7 +11,12 @@ import { GalacticWarriorRepository } from "../../../fusionados/domain/repositori
 import { PokeApiPokemonRepository } from "../../../fusionados/infrastructure/repositories/PokeApiPokemonRepository";
 import { SwapiStarWarsRepository } from "../../../fusionados/infrastructure/repositories/SwapiStarWarsRepository";
 import { DynamoGalacticWarriorRepository } from "../../../fusionados/infrastructure/repositories/DynamoGalacticWarriorRepository";
-import { InMemoryGalacticWarriorRepository } from "../../../fusionados/infrastructure/repositories/InMemoryGalacticWarriorRepository";
+import { CustomWarriorRepository } from "../../../almacenar/domain/repositories/custom-warrior.repository";
+import { DynamoCustomWarriorRepository } from "../../../almacenar/infrastructure/repositories/DynamoCustomWarriorRepository";
+import { AlmacenarHandler } from "../../../almacenar/application/commands/handlers/almacenar.handler";
+import { HistorialHandler } from "../../../historial/application/queries/handlers/historial.handler";
+import { HistorialRepository } from "../../../historial/domain/repositories/historial.repository";
+import { DynamoHistorialRepository } from "../../../historial/infrastructure/repositories/DynamoHistorialRepository";
 
 export const buildContainer = () => {
   const container = new Container();
@@ -20,19 +25,36 @@ export const buildContainer = () => {
   container.bind<Logger>(TYPES.Logger).toConstantValue(logger);
   container.bind<Tracer>(TYPES.Tracer).toConstantValue(tracer);
 
-  // Repositories
-  container.bind<PokemonRepository>(TYPES.PokemonRepository).to(PokeApiPokemonRepository);
-  container.bind<StarWarsRepository>(TYPES.StarWarsRepository).to(SwapiStarWarsRepository);
-  
-  // Usar repositorio en memoria para desarrollo local, DynamoDB para producción
-  if (process.env["NODE_ENV"] === "dev" || process.env["IS_OFFLINE"]) {
-    container.bind<GalacticWarriorRepository>(TYPES.GalacticWarriorRepository).to(InMemoryGalacticWarriorRepository).inSingletonScope();
-  } else {
-    container.bind<GalacticWarriorRepository>(TYPES.GalacticWarriorRepository).to(DynamoGalacticWarriorRepository);
-  }
+  // repositorios
+  container
+    .bind<PokemonRepository>(TYPES.PokemonRepository)
+    .to(PokeApiPokemonRepository);
+  container
+    .bind<StarWarsRepository>(TYPES.StarWarsRepository)
+    .to(SwapiStarWarsRepository);
 
-  // Query handler
-  container.bind<FusionadosHandler>(TYPES.FusionadosHandler).to(FusionadosHandler);
+  container
+    .bind<GalacticWarriorRepository>(TYPES.GalacticWarriorRepository)
+    .to(DynamoGalacticWarriorRepository);
+
+  container
+    .bind<CustomWarriorRepository>(TYPES.CustomWarriorRepository)
+    .to(DynamoCustomWarriorRepository);
+
+  container
+    .bind<HistorialRepository>(TYPES.HistorialRepository)
+    .to(DynamoHistorialRepository);
+
+  // query handler
+  container
+    .bind<FusionadosHandler>(TYPES.FusionadosHandler)
+    .to(FusionadosHandler);
+
+  container.bind<HistorialHandler>(TYPES.HistorialHandler).to(HistorialHandler);
+
+  // command handler
+  container.bind<AlmacenarHandler>(TYPES.AlmacenarHandler).to(AlmacenarHandler);
 
   return container;
 };
+

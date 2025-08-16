@@ -28,3 +28,4 @@ export class PokeApiPokemonRepository implements PokemonRepository {
     return this.getPokemonById(randomId);
   }
 }
+

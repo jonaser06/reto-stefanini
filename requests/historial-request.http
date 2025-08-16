@@ -1,0 +1,17 @@
+### estefanini serverless api - historial
+
+# variables de entorno para el archivo
+@baseUrl = http://localhost:3000/dev
+@prodUrl = https://mxipk20k2a.execute-api.us-east-1.amazonaws.com/dev
+
+### ========================================
+### endpoints de desarrollo local
+### ========================================
+
+### 1. historial - GET (todos los registros - cronologico ascendente)
+GET {{baseUrl}}/historial
+Content-Type: application/json
+
+### 2. historial - GET (con limite)
+GET {{baseUrl}}/historial?limit=10
+Content-Type: application/json

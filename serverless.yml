@@ -27,7 +27,7 @@ provider:
             - dynamodb:Query
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
-          Resource: 
+          Resource:
             - Fn::GetAtt: [GalacticWarriorsTable, Arn]
 
 plugins:
@@ -64,11 +64,19 @@ functions:
           method: get
           cors: true
   
-  listFusionados:
-    handler: src/fusionados/infrastructure/controllers/list-fusionados-controller.handler
+  almacenar:
+    handler: src/almacenar/infrastructure/controllers/almacenar-controller.handler
     events:
       - http:
-          path: fusionados/list
+          path: almacenar
+          method: post
+          cors: true
+  
+  historial:
+    handler: src/historial/infrastructure/controllers/historial-controller.handler
+    events:
+      - http:
+          path: historial
           method: get
           cors: true
 
@@ -78,21 +86,13 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         TableName: ${self:custom.galacticWarriorsTable}
-        BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
         KeySchema:
           - AttributeName: id
             KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
         StreamSpecification:
           StreamViewType: NEW_AND_OLD_IMAGES
-        SSESpecification:
-          SSEEnabled: true
-        PointInTimeRecoverySpecification:
-          PointInTimeRecoveryEnabled: true
-        Tags:
-          - Key: Name
-            Value: Galactic Warriors Table
-          - Key: Environment
-            Value: ${self:provider.stage}
+

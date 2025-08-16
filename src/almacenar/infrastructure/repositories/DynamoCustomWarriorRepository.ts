@@ -2,15 +2,13 @@ import "reflect-metadata";
 import { injectable, inject } from "inversify";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
-import { GalacticWarriorEntity } from "../../domain/entities/galactic-warrior.entity";
-import { GalacticWarriorRepository } from "../../domain/repositories/galactic-warrior.repository";
+import { CustomWarriorEntity } from "../../domain/entities/custom-warrior.entity";
+import { CustomWarriorRepository } from "../../domain/repositories/custom-warrior.repository";
 import { TYPES } from "../../../shared/infrastructure/ioc/types";
 import { Logger } from "@aws-lambda-powertools/logger";
 
 @injectable()
-export class DynamoGalacticWarriorRepository
-  implements GalacticWarriorRepository
-{
+export class DynamoCustomWarriorRepository implements CustomWarriorRepository {
   private readonly client: DynamoDBDocumentClient;
   private readonly tableName: string;
 
@@ -25,9 +23,9 @@ export class DynamoGalacticWarriorRepository
       process.env.GALACTIC_WARRIORS_TABLE || "galactic-warriors-dev";
   }
 
-  async save(warrior: GalacticWarriorEntity): Promise<GalacticWarriorEntity> {
+  async save(warrior: CustomWarriorEntity): Promise<CustomWarriorEntity> {
     try {
-      this.logger.info("Saving galactic warrior to DynamoDB", {
+      this.logger.info("Saving custom warrior to DynamoDB", {
         id: warrior.id,
         name: warrior.name,
       });
@@ -54,16 +52,14 @@ export class DynamoGalacticWarriorRepository
         })
       );
 
-      this.logger.info("Galactic warrior saved successfully", {
-        id: warrior.id,
-      });
+      this.logger.info("Custom warrior saved successfully", { id: warrior.id });
       return warrior;
     } catch (error) {
-      this.logger.error("Error saving galactic warrior", {
+      this.logger.error("Error saving custom warrior", {
         error,
         warriorId: warrior.id,
       });
-      throw new Error(`Failed to save galactic warrior: ${error}`);
+      throw new Error(`Failed to save custom warrior: ${error}`);
     }
   }
 }

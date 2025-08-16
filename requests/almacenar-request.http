@@ -1,0 +1,24 @@
+### Estefanini Serverless API - Almacenar
+
+# Variables de entorno para el archivo
+@baseUrl = http://localhost:3000/dev
+@prodUrl = https://mxipk20k2a.execute-api.us-east-1.amazonaws.com/dev
+
+### ========================================
+### ENDPOINTS DE DESARROLLO LOCAL
+### ========================================
+
+### 1. Almacenar - POST (Crear Custom Warrior)
+POST {{baseUrl}}/almacenar
+Content-Type: application/json
+
+{
+  "name": "Shadow Ninja",
+  "powerLevel": 850,
+  "height": 1.75,
+  "weight": 70,
+  "abilities": ["Stealth", "Shadow Clone", "Ninja Arts"],
+  "species": "Human-Ninja",
+  "description": "A mysterious warrior trained in the ancient arts of stealth and combat",
+  "createdBy": "jonathan@example.com"
+}

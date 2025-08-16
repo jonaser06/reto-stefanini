@@ -3,34 +3,40 @@ import middy from "@middy/core";
 import { injectLambdaContext } from "@aws-lambda-powertools/logger/middleware";
 import { captureLambdaHandler } from "@aws-lambda-powertools/tracer/middleware";
 import { logger, tracer } from "../../../shared/infrastructure/logs/logger";
-import { FusionadosInput } from "../../application/dtos/input/fusionados.input";
-import { FusionadosOutput } from "../../application/dtos/output/fusionados.output";
+import {
+  AlmacenarInput,
+  CreateCustomWarriorInput,
+} from "../../application/dtos/input/almacenar.input";
+import { AlmacenarOutput } from "../../application/dtos/output/almacenar.output";
 import { buildContainer } from "../../../shared/infrastructure/ioc/container";
-import { GetFusionadosQuery } from "../../application/queries/get-fusionados.query";
-import { FusionadosHandler } from "../../application/queries/handlers/fusionados.handler";
+import { AlmacenarHandler } from "../../application/commands/handlers/almacenar.handler";
 import { TYPES } from "../../../shared/infrastructure/ioc/types";
+import { CreateCustomWarriorCommand } from "../../application/commands/create-custom-warrior.command";
 
 export const handler = middy(
-  async (_event: FusionadosInput): Promise<FusionadosOutput> => {
+  async (event: AlmacenarInput): Promise<AlmacenarOutput> => {
     try {
       const container = buildContainer();
-      const fusionadosHandler = container.get<FusionadosHandler>(
-        TYPES.FusionadosHandler
+      const almacenarHandler = container.get<AlmacenarHandler>(
+        TYPES.AlmacenarHandler
       );
-      const query = new GetFusionadosQuery();
 
-      const galacticWarriors = await fusionadosHandler.execute(query);
+      logger.info("Processing almacenar POST request");
+
+      const requestData: CreateCustomWarriorInput = JSON.parse(event.body);
+      const command = new CreateCustomWarriorCommand(requestData);
+      const customWarrior = await almacenarHandler.execute(command);
 
       return {
-        statusCode: 200,
+        statusCode: 201,
         body: JSON.stringify({
-          message: "Galactic Warriors Fusion Successful",
-          data: galacticWarriors,
+          message: "Custom Warrior Created Successfully",
+          data: customWarrior,
           timestamp: new Date().toISOString(),
         }),
       };
     } catch (error) {
-      logger.error("Error in fusionados handler", { error });
+      logger.error("Error in almacenar handler", { error });
       return {
         statusCode: 500,
         body: JSON.stringify({

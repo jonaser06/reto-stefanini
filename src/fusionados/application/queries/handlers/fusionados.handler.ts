@@ -12,9 +12,12 @@ import { GalacticWarriorEntity } from "../../../domain/entities/galactic-warrior
 export class FusionadosHandler {
   constructor(
     @inject(TYPES.Logger) private readonly logger: Logger,
-    @inject(TYPES.PokemonRepository) private readonly pokemonRepository: PokemonRepository,
-    @inject(TYPES.StarWarsRepository) private readonly starWarsRepository: StarWarsRepository,
-    @inject(TYPES.GalacticWarriorRepository) private readonly galacticWarriorRepository: GalacticWarriorRepository
+    @inject(TYPES.PokemonRepository)
+    private readonly pokemonRepository: PokemonRepository,
+    @inject(TYPES.StarWarsRepository)
+    private readonly starWarsRepository: StarWarsRepository,
+    @inject(TYPES.GalacticWarriorRepository)
+    private readonly galacticWarriorRepository: GalacticWarriorRepository
   ) {}
 
   async execute(query: GetFusionadosQuery): Promise<GalacticWarriorEntity[]> {
@@ -25,15 +28,21 @@ export class FusionadosHandler {
       const pokemonPromise = this.pokemonRepository.getRandomPokemon();
       const starWarsPromise = this.starWarsRepository.getRandomCharacter();
 
-      const [pokemon, starWarsCharacter] = await Promise.all([pokemonPromise, starWarsPromise]);
+      const [pokemon, starWarsCharacter] = await Promise.all([
+        pokemonPromise,
+        starWarsPromise,
+      ]);
 
       this.logger.info("Data fetched successfully", {
         pokemon: pokemon.name,
         starWarsCharacter: starWarsCharacter.name,
       });
 
-      // Crear el guerrero galáctico fusionado
-      const galacticWarrior = GalacticWarriorEntity.fromPokemonAndStarWars(pokemon, starWarsCharacter);
+      // Crear el guerrero galactico fusionado
+      const galacticWarrior = GalacticWarriorEntity.fromPokemonAndStarWars(
+        pokemon,
+        starWarsCharacter
+      );
 
       this.logger.info("Galactic warrior created", {
         id: galacticWarrior.id,
@@ -41,8 +50,10 @@ export class FusionadosHandler {
         powerLevel: galacticWarrior.powerLevel,
       });
 
-      // Guardar en DynamoDB
-      const savedWarrior = await this.galacticWarriorRepository.save(galacticWarrior);
+      // Guardar en dynamo
+      const savedWarrior = await this.galacticWarriorRepository.save(
+        galacticWarrior
+      );
 
       this.logger.info("Galactic warrior saved to database", {
         id: savedWarrior.id,
@@ -56,3 +67,4 @@ export class FusionadosHandler {
     }
   }
 }
+

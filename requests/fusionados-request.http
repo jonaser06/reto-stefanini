@@ -2,7 +2,7 @@
 
 # Variables de entorno para el archivo
 @baseUrl = http://localhost:3000/dev
-@prodUrl = https://your-api-gateway-url.execute-api.us-east-1.amazonaws.com/dev
+@prodUrl = https://mxipk20k2a.execute-api.us-east-1.amazonaws.com/dev
 
 ### ========================================
 ### ENDPOINTS DE DESARROLLO LOCAL

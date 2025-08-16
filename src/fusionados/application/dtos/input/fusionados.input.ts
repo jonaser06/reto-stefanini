@@ -7,3 +7,4 @@ export interface FusionadosInput extends APIGatewayProxyEvent {
     pokemonId?: string;
   } | null;
 }
+

@@ -26,3 +26,4 @@ export class SwapiStarWarsRepository implements StarWarsRepository {
     return this.getCharacterById(randomId);
   }
 }
+
