@@ -235,14 +235,6 @@ logger.info("Creating galactic warrior", {
 ✅ **ESLint** para calidad de código  
 ✅ **Single Table Design** para DynamoDB eficiente
 
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-feature`)
-3. Commit tus cambios (`git commit -m 'Agregar nueva feature'`)
-4. Push a la rama (`git push origin feature/nueva-feature`)
-5. Abre un Pull Request
-
 ## 📜 Licencia
 
 Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) para detalles.
@@ -250,3 +242,4 @@ Este proyecto está bajo la Licencia MIT - mira el archivo [LICENSE](LICENSE) pa
 ---
 
 **¡Que la Fuerza acompañe a tus Pokémon!** ⚡🔮
+
