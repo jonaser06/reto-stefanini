@@ -1,0 +1,98 @@
+service: estefanini-serverless
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  stage: ${opt:stage, "dev"}
+  region: ${opt:region, "us-east-1"}
+  environment:
+    NODE_ENV: ${self:provider.stage}
+    GALACTIC_WARRIORS_TABLE: ${self:custom.galacticWarriorsTable}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Scan
+            - dynamodb:Query
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: 
+            - Fn::GetAtt: [GalacticWarriorsTable, Arn]
+
+plugins:
+  - serverless-esbuild
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  galacticWarriorsTable: galactic-warriors-${self:provider.stage}
+  dynamodb:
+    start:
+      port: 8000
+      inMemory: true
+      heapInitial: 200m
+      heapMax: 1g
+      migrate: true
+    stages:
+      - dev
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    exclude: ["aws-sdk"]
+    target: "node20"
+    platform: "node"
+    concurrency: 10
+
+functions:
+  fusionados:
+    handler: src/fusionados/infrastructure/controllers/fusionados-controller.handler
+    events:
+      - http:
+          path: fusionados
+          method: get
+          cors: true
+  
+  listFusionados:
+    handler: src/fusionados/infrastructure/controllers/list-fusionados-controller.handler
+    events:
+      - http:
+          path: fusionados/list
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    GalacticWarriorsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.galacticWarriorsTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        StreamSpecification:
+          StreamViewType: NEW_AND_OLD_IMAGES
+        SSESpecification:
+          SSEEnabled: true
+        PointInTimeRecoverySpecification:
+          PointInTimeRecoveryEnabled: true
+        Tags:
+          - Key: Name
+            Value: Galactic Warriors Table
+          - Key: Environment
+            Value: ${self:provider.stage}
