@@ -1,0 +1,55 @@
+{
+  "MOCK": {
+    "DATOS_OK": {
+      "warrior": {
+        "name": "Custom Warrior",
+        "powerLevel": 100,
+        "origin": "custom",
+        "height": 1.8,
+        "weight": 75,
+        "abilities": [
+          "super-strength"
+        ],
+        "species": "human",
+        "description": "A custom warrior",
+        "createdBy": "user"
+      }
+    },
+    "DATOS_INVALIDOS": {
+      "warrior": {
+        "name": "",
+        "powerLevel": -10,
+        "origin": "invalid"
+      }
+    }
+  },
+  "RESPONSE": {
+    "RESPUESTA_OK": {
+      "statusCode": 201,
+      "body": {
+        "message": "guerrero almacenado exitosamente",
+        "data": {
+          "id": "custom-123",
+          "name": "Custom Warrior",
+          "powerLevel": 100,
+          "origin": "custom",
+          "height": 1.8,
+          "weight": 75,
+          "abilities": [
+            "super-strength"
+          ],
+          "species": "human",
+          "description": "A custom warrior",
+          "createdBy": "user"
+        }
+      }
+    },
+    "ERROR_VALIDACION": {
+      "statusCode": 400,
+      "body": {
+        "message": "datos de entrada inválidos",
+        "error": "validation failed"
+      }
+    }
+  }
+}

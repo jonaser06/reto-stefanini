@@ -1,0 +1,78 @@
+{
+  "MOCK": {
+    "DATOS_OK": {
+      "items": [
+        {
+          "id": "25-1",
+          "name": "Pikachu Luke",
+          "powerLevel": 83,
+          "origin": "pokemon",
+          "height": 1.06,
+          "weight": 68.5,
+          "abilities": [
+            "static",
+            "Force-sensitive"
+          ],
+          "species": "Electric-Humanoid",
+          "description": "no description",
+          "createdBy": "no creator",
+          "createdAt": "2024-01-01T00:00:00.000Z"
+        }
+      ],
+      "count": 1
+    },
+    "SIN_DATOS": {
+      "items": [],
+      "count": 0
+    }
+  },
+  "RESPONSE": {
+    "RESPUESTA_OK": {
+      "statusCode": 200,
+      "body": {
+        "message": "historial obtenido exitosamente",
+        "data": [
+          {
+            "id": "25-1",
+            "warriorId": "25-1",
+            "warriorName": "Pikachu Luke",
+            "warriorData": {
+              "name": "Pikachu Luke",
+              "powerLevel": 83,
+              "origin": "pokemon",
+              "height": 1.06,
+              "weight": 68.5,
+              "abilities": [
+                "static",
+                "Force-sensitive"
+              ],
+              "species": "Electric-Humanoid",
+              "description": "no description",
+              "createdBy": "no creator"
+            },
+            "createdAt": "2024-01-01T00:00:00.000Z",
+            "endpoint": "/fusionados",
+            "requestData": null
+          }
+        ],
+        "pagination": {
+          "limit": 10,
+          "total": 1,
+          "count": 1
+        }
+      }
+    },
+    "RESPUESTA_VACIA": {
+      "statusCode": 200,
+      "body": {
+        "message": "historial obtenido exitosamente",
+        "data": [],
+        "pagination": {
+          "limit": 10,
+          "total": 0,
+          "count": 0
+        }
+      }
+    }
+  }
+}

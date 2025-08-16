@@ -10,6 +10,9 @@
     "remove": "serverless remove",
     "dev": "serverless offline",
     "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "coverage:open": "open coverage/lcov-report/index.html",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"
   },
@@ -28,6 +31,7 @@
     "@typescript-eslint/parser": "^6.13.0",
     "eslint": "^8.54.0",
     "jest": "^29.7.0",
+    "jest-cucumber": "^4.5.0",
     "serverless": "^3.38.0",
     "serverless-dynamodb-local": "^0.2.40",
     "serverless-esbuild": "^1.50.0",

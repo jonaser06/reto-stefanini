@@ -1,0 +1,12 @@
+{
+  "REQUEST": {
+    "POST_WARRIOR": {
+      "httpMethod": "POST",
+      "path": "/almacenar",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": "{\"name\":\"Custom Warrior\",\"powerLevel\":100,\"origin\":\"custom\",\"height\":1.8,\"weight\":75,\"abilities\":[\"super-strength\"],\"species\":\"human\",\"description\":\"A custom warrior\",\"createdBy\":\"user\"}"
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "MOCK": {
+    "APIS_OK": {
+      "pokemon": {
+        "id": 25,
+        "name": "pikachu",
+        "height": 4,
+        "weight": 60,
+        "abilities": [
+          {
+            "ability": {
+              "name": "static"
+            }
+          }
+        ],
+        "stats": [
+          {
+            "base_stat": 35
+          },
+          {
+            "base_stat": 55
+          }
+        ],
+        "species": {
+          "name": "electric"
+        }
+      },
+      "starwars": {
+        "name": "Luke Skywalker",
+        "height": "172",
+        "mass": "77",
+        "homeworld": "https://swapi.dev/api/planets/1/",
+        "url": "https://swapi.dev/api/people/1/"
+      }
+    },
+    "POKEMON_ERROR": {
+      "pokemon": null,
+      "starwars": {
+        "name": "Luke Skywalker",
+        "height": "172",
+        "mass": "77",
+        "homeworld": "https://swapi.dev/api/planets/1/",
+        "url": "https://swapi.dev/api/people/1/"
+      }
+    },
+    "STARWARS_ERROR": {
+      "pokemon": {
+        "id": 25,
+        "name": "pikachu",
+        "height": 4,
+        "weight": 60,
+        "abilities": [
+          {
+            "ability": {
+              "name": "static"
+            }
+          }
+        ],
+        "stats": [
+          {
+            "base_stat": 35
+          },
+          {
+            "base_stat": 55
+          }
+        ]
+      },
+      "starwars": null
+    }
+  },
+  "RESPONSE": {
+    "RESPUESTA_OK": {
+      "statusCode": 200,
+      "body": {
+        "message": "fusion exitosa",
+        "data": [
+          {
+            "id": "25-1",
+            "name": "Pikachu Luke",
+            "powerLevel": 83,
+            "origin": "pokemon",
+            "height": 1.06,
+            "weight": 68.5,
+            "abilities": [
+              "static",
+              "Force-sensitive"
+            ],
+            "species": "Electric-Humanoid",
+            "description": "no description",
+            "createdBy": "no creator"
+          }
+        ]
+      }
+    },
+    "ERROR_POKEMON": {
+      "statusCode": 500,
+      "body": {
+        "message": "internal server error",
+        "error": "Failed to create galactic warrior fusion"
+      }
+    },
+    "ERROR_STARWARS": {
+      "statusCode": 500,
+      "body": {
+        "message": "internal server error",
+        "error": "Failed to create galactic warrior fusion"
+      }
+    }
+  }
+}

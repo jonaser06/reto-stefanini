@@ -1,0 +1,13 @@
+{
+  "REQUEST": {
+    "FUSION": {
+      "httpMethod": "GET",
+      "path": "/fusionados",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "queryStringParameters": null,
+      "body": null
+    }
+  }
+}

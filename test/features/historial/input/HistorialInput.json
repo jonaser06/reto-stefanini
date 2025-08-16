@@ -1,0 +1,15 @@
+{
+  "REQUEST": {
+    "HISTORIAL": {
+      "httpMethod": "GET",
+      "path": "/historial",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "queryStringParameters": {
+        "limit": "10"
+      },
+      "body": null
+    }
+  }
+}
