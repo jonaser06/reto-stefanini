@@ -15,13 +15,3 @@ export interface CreateCustomWarriorInput {
   description?: string;
   createdBy?: string;
 }
-
-export interface UpdateCustomWarriorInput {
-  name?: string;
-  powerLevel?: number;
-  height?: number;
-  weight?: number;
-  abilities?: string[];
-  species?: string;
-  description?: string;
-}

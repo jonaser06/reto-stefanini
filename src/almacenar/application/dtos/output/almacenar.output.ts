@@ -6,27 +6,3 @@ export interface AlmacenarOutput {
   headers?: { [key: string]: string };
 }
 
-export interface CreateCustomWarriorOutput {
-  message: string;
-  data: CustomWarrior;
-  timestamp: string;
-}
-
-export interface GetCustomWarriorsOutput {
-  message: string;
-  data: CustomWarrior[];
-  count: number;
-  timestamp: string;
-}
-
-export interface UpdateCustomWarriorOutput {
-  message: string;
-  data: CustomWarrior;
-  timestamp: string;
-}
-
-export interface DeleteCustomWarriorOutput {
-  message: string;
-  deletedId: string;
-  timestamp: string;
-}
