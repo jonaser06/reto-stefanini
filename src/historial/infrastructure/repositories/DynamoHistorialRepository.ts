@@ -1,12 +1,7 @@
 import "reflect-metadata";
 import { injectable, inject } from "inversify";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import {
-  DynamoDBDocumentClient,
-  PutCommand,
-  GetCommand,
-  ScanCommand,
-} from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { HistorialEntryEntity } from "../../domain/entities/historial-entry.entity";
 import { HistorialRepository } from "../../domain/repositories/historial.repository";
 import { TYPES } from "../../../shared/infrastructure/ioc/types";
@@ -26,47 +21,6 @@ export class DynamoHistorialRepository implements HistorialRepository {
     this.client = DynamoDBDocumentClient.from(dynamoClient);
     this.tableName =
       process.env.GALACTIC_WARRIORS_TABLE || "galactic-warriors-dev";
-  }
-
-  async save(entry: HistorialEntryEntity): Promise<HistorialEntryEntity> {
-    try {
-      this.logger.info("guardando entrada del historial en DynamoDB", {
-        id: entry.id,
-        warriorId: entry.warriorId,
-        warriorName: entry.warriorName,
-      });
-
-      const item = {
-        id: entry.id,
-        warriorId: entry.warriorId,
-        warriorName: entry.warriorName,
-        warriorData: entry.warriorData,
-        createdAt: entry.createdAt,
-        endpoint: entry.endpoint,
-        requestData: entry.requestData,
-        type: "historial", // para filtrar en scans
-        updatedAt: new Date().toISOString(),
-      };
-
-      await this.client.send(
-        new PutCommand({
-          TableName: this.tableName,
-          Item: item,
-        })
-      );
-
-      this.logger.info("entrada del historial guardada exitosamente", {
-        id: entry.id,
-      });
-
-      return entry;
-    } catch (error) {
-      this.logger.error("error guardando entrada del historial", {
-        error,
-        entryId: entry.id,
-      });
-      throw new Error(`failed to save historial entry: ${error}`);
-    }
   }
 
   async findAll(limit: number = 20): Promise<HistorialEntryEntity[]> {
@@ -132,61 +86,24 @@ export class DynamoHistorialRepository implements HistorialRepository {
     }
   }
 
-  async findById(id: string): Promise<HistorialEntryEntity | null> {
-    try {
-      this.logger.info("buscando entrada del historial por ID", { id });
-
-      const result = await this.client.send(
-        new GetCommand({
-          TableName: this.tableName,
-          Key: { id },
-        })
-      );
-
-      if (!result.Item || result.Item.type !== "historial") {
-        this.logger.info("entrada del historial no encontrada", { id });
-        return null;
-      }
-
-      const item = result.Item;
-      return new HistorialEntryEntity(
-        item.id,
-        item.warriorId,
-        item.warriorName,
-        item.warriorData,
-        item.createdAt,
-        item.endpoint,
-        item.requestData
-      );
-    } catch (error) {
-      this.logger.error("error buscando entrada del historial", { error, id });
-      throw new Error(`failed to find historial entry: ${error}`);
-    }
-  }
-
   async count(): Promise<number> {
     try {
       this.logger.info("contando entradas del historial");
 
-      const result = await this.client.send(
-        new ScanCommand({
-          TableName: this.tableName,
-          Select: "COUNT",
-        })
-      );
-
-      // necesitamos contar solo galactic warriors (sin el campo type)
       const allResult = await this.client.send(
         new ScanCommand({
           TableName: this.tableName,
         })
       );
 
-      const galacticWarriorCount = allResult.Items?.filter(
-        (item) => item.name && item.powerLevel && item.origin && !item.type
-      ).length || 0;
+      const galacticWarriorCount =
+        allResult.Items?.filter(
+          (item) => item.name && item.powerLevel && item.origin && !item.type
+        ).length || 0;
 
-      this.logger.info("conteo del historial completado", { count: galacticWarriorCount });
+      this.logger.info("conteo del historial completado", {
+        count: galacticWarriorCount,
+      });
 
       return galacticWarriorCount;
     } catch (error) {
@@ -195,3 +112,4 @@ export class DynamoHistorialRepository implements HistorialRepository {
     }
   }
 }
+

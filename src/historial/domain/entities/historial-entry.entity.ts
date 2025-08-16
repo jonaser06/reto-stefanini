@@ -3,13 +3,13 @@
  * representa una entrada del historial de respuestas de fusionados
  */
 export interface HistorialEntry {
-  id: string; // id unico
-  warriorId: string; // id del guerrero
-  warriorName: string; // nombre del guerrero
-  warriorData: any; // datos completos del guerrero
-  createdAt: string; // fecha de creacion
-  endpoint: string; // endpoint que lo creo
-  requestData?: any; // datos de la request original
+  id: string;
+  warriorId: string;
+  warriorName: string;
+  warriorData: any;
+  createdAt: string;
+  endpoint: string;
+  requestData?: any;
 }
 
 /**
@@ -36,7 +36,7 @@ export class HistorialEntryEntity implements HistorialEntry {
     requestData?: any
   ): HistorialEntryEntity {
     const id = `hist-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-    
+
     return new HistorialEntryEntity(
       id,
       warrior.id,
@@ -73,7 +73,8 @@ export class HistorialEntryEntity implements HistorialEntry {
       createdAt: this.createdAt,
       endpoint: this.endpoint,
       powerLevel: this.warriorData.powerLevel || 0,
-      origin: this.warriorData.origin || 'unknown'
+      origin: this.warriorData.origin || "unknown",
     };
   }
 }
+
