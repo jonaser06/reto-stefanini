@@ -3,11 +3,21 @@
 # Variables de entorno para el archivo
 @baseUrl = http://localhost:3000/dev
 @prodUrl = https://mxipk20k2a.execute-api.us-east-1.amazonaws.com/dev
+@apiKey = your-api-key-here
 
 ### ========================================
-### ENDPOINTS DE DESARROLLO LOCAL
+### ENDPOINTS DE DESARROLLO LOCAL (sin API key)
 ### ========================================
 
-### 1. Fusionados - GET
+### 1. Fusionados - GET (local)
 GET {{baseUrl}}/fusionados
 Content-Type: application/json
+
+### ========================================
+### ENDPOINTS DE PRODUCCIÓN (con API key y rate-limiting)
+### ========================================
+
+### 2. Fusionados - GET (producción con API key)
+GET {{prodUrl}}/fusionados
+Content-Type: application/json
+X-API-Key: {{apiKey}}

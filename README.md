@@ -225,6 +225,23 @@ logger.info("Creating galactic warrior", {
 - Manejo de errores de APIs externas
 - Logs detallados con contexto
 
+## 🛡️ Rate Limiting y Seguridad
+
+La API implementa **rate-limiting** usando AWS API Gateway para proteger contra abuso:
+
+### Configuración Actual
+
+- **10 requests/segundo** por API key
+- **20 requests** de burst permitidos
+- **1000 requests/día** quota máxima
+- **API Key requerida** para endpoints que consumen APIs externas
+
+### Endpoints Protegidos
+
+- ✅ `GET /fusionados` - Requiere API key (consume PokeAPI + SWAPI)
+- ✅ `POST /almacenar` - Requiere API key (escritura en DB)
+- 🔓 `GET /historial` - Público (solo lectura)
+
 ## 🌟 Mejores Prácticas Implementadas
 
 ✅ **Arquitectura limpia** separando responsabilidades  
@@ -233,7 +250,9 @@ logger.info("Creating galactic warrior", {
 ✅ **Pruebas BDD** en español para claridad  
 ✅ **TypeScript estricto** para type safety  
 ✅ **ESLint** para calidad de código  
-✅ **Single Table Design** para DynamoDB eficiente
+✅ **Single Table Design** para DynamoDB eficiente  
+✅ **Rate limiting** con AWS API Gateway para prevenir abuso  
+✅ **API Keys** para autenticación y control de acceso
 
 ## 📜 Licencia
 

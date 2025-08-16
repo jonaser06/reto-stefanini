@@ -10,6 +10,17 @@ provider:
   environment:
     NODE_ENV: ${self:provider.stage}
     GALACTIC_WARRIORS_TABLE: ${self:custom.galacticWarriorsTable}
+  apiGateway:
+    usagePlan:
+      quota:
+        limit: 1000 # 1000 requests por día
+        period: DAY
+      throttle:
+        rateLimit: 10 # 10 requests por segundo
+        burstLimit: 20 # Hasta 20 requests en picos
+    apiKeys:
+      - name: galactic-warriors-api-key-${self:provider.stage}
+        description: "API Key para Galactic Warriors API"
   iam:
     role:
       statements:
@@ -63,7 +74,8 @@ functions:
           path: fusionados
           method: get
           cors: true
-  
+          private: true # Requiere API Key y aplica rate-limiting
+
   almacenar:
     handler: src/almacenar/infrastructure/controllers/almacenar-controller.handler
     events:
@@ -71,7 +83,8 @@ functions:
           path: almacenar
           method: post
           cors: true
-  
+          private: true # Requiere API Key y aplica rate-limiting
+
   historial:
     handler: src/historial/infrastructure/controllers/historial-controller.handler
     events:
@@ -79,6 +92,7 @@ functions:
           path: historial
           method: get
           cors: true
+          private: false # Historial público, sin rate-limiting estricto
 
 resources:
   Resources:
